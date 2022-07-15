@@ -1,0 +1,45 @@
+name: Build zig.wasm
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: sudo apt install -y python3 build-essential gcc cmake make lld
+      - name: Prepare directories
+        run: |
+          mkdir zig
+          mkdir zig-bootstrap
+      - uses: actions/checkout@v3
+        with:
+          repository: ziglang/zig
+          submodules: "recursive"
+          path: "zig"
+      - uses: actions/checkout@v3
+        with:
+          repository: ziglang/zig-bootstrap
+          submodules: "recursive"
+          path: "zig-bootstrap"
+      - name: Bootstrap zig compiler
+        run: |
+          pwd 
+          ls
+          cd ./zig-bootstrap &&
+          ./build -j8 native-linux-gnu
+      - name: Compile zig to wasm
+        run: |
+          pwd 
+          ls
+          cd ./zig-bootstrap &&
+          ../zig/out/host/bin/zig build -Dtarget=wasm32-wasi
+      - uses: actions/upload-artifact@v3
+        with:
+          name: zig-wasm
+          path: zig-bootstrap/zig-out/bin/zig.wasm
