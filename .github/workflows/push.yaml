@@ -32,7 +32,7 @@ jobs:
           pwd 
           ls
           cd ./zig-bootstrap &&
-          ./build -j8 native-linux-gnu
+          ./build -j8 native-linux-gnu baseline
       - name: Compile zig to wasm
         run: |
           pwd 
