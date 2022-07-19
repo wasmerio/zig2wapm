@@ -37,8 +37,8 @@ jobs:
         run: |
           pwd 
           ls
-          cd ./zig-bootstrap &&
-          ../zig/out/host/bin/zig build -Dtarget=wasm32-wasi
+          cd ./zig &&
+          ../zig-bootstrap/out/host/bin/zig build -Dtarget=wasm32-wasi
       - uses: actions/upload-artifact@v3
         with:
           name: zig-wasm
