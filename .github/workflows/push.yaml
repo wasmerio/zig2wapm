@@ -32,12 +32,14 @@ jobs:
           pwd 
           ls
           cd ./zig-bootstrap &&
+          git checkout $(git tag | tail -n1) && 
           ./build -j8 native-linux-gnu baseline
       - name: Compile zig to wasm
         run: |
           pwd 
           ls
           cd ./zig &&
+          git checkout $(git tag | tail -n1) &&
           ../zig-bootstrap/out/host/bin/zig build -Dtarget=wasm32-wasi
       - uses: actions/upload-artifact@v3
         with:
