@@ -1,0 +1,17 @@
+[package]
+name = "fschuett/zig"
+version = "0.10.0-dev.3040+0efc6a35b"
+description = "zig build tool"
+license = "MIT"
+
+[[module]]
+name = "zig"
+source = "zig.wasm"
+abi = "wasi"
+
+[module.interfaces]
+wasi = "0.1.0-unstable"
+
+[[command]]
+name = "zig"
+module = "zig"
