@@ -15,12 +15,13 @@ jobs:
       - name: Install dependencies
         run: sudo apt install -y git cargo
       - uses: actions/checkout@v3
+      - name: Install wapm
+        run: curl https://get.wasmer.io -sSfL | sh
       - name: Run build.sh
         shell: bash
         run: |
           pwd 
           ls
-          curl https://get.wasmer.io -sSfL | sh &&
           WAPM_DEV_USERNAME=${{secrets.WAPM_DEV_USERNAME}} \
           WAPM_REGISTRY=${{secrets.WAPM_REGISTRY}} \
           WAPM_REGISTRY_TOKEN=${{secrets.WAPM_REGISTRY_TOKEN}} \
