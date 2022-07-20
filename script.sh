@@ -32,7 +32,3 @@ echo "[9/10] packaging zig.wasm in:"
 pwd
 echo "directory:"
 ls
-wapm config set registry.url $WAPM_REGISTRY
-echo "[10/10] uploading to wapm.io using WAPM_REGISTRY_TOKEN:"
-echo "$WAPM_REGISTRY_TOKEN"
-wapm publish # uses WAPM_REGISTRY_TOKEN env var
