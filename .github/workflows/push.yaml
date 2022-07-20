@@ -5,6 +5,7 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+
   workflow_dispatch:
 
 jobs:
@@ -12,36 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
-        run: sudo apt install -y python3 build-essential gcc cmake make lld
-      - name: Prepare directories
-        run: |
-          mkdir zig
-          mkdir zig-bootstrap
+        run: sudo apt install -y git cargo
       - uses: actions/checkout@v3
-        with:
-          repository: ziglang/zig
-          submodules: "recursive"
-          path: "zig"
-      - uses: actions/checkout@v3
-        with:
-          repository: ziglang/zig-bootstrap
-          submodules: "recursive"
-          path: "zig-bootstrap"
-      - name: Bootstrap zig compiler
+      - name: Run build.sh
+        shell: bash
         run: |
           pwd 
           ls
-          cd ./zig-bootstrap &&
-          git checkout $(git tag | tail -n1) && 
-          ./build -j8 native-linux-gnu baseline
-      - name: Compile zig to wasm
-        run: |
-          pwd 
-          ls
-          cd ./zig &&
-          git checkout $(git tag | tail -n1) &&
-          ../zig-bootstrap/out/host/bin/zig build -Dtarget=wasm32-wasi
-      - uses: actions/upload-artifact@v3
-        with:
-          name: zig-wasm
-          path: zig-bootstrap/zig-out/bin/zig.wasm
+          curl https://get.wasmer.io -sSfL | sh &&
+          WAPM_DEV_USERNAME=${{secrets.WAPM_DEV_USERNAME}} \
+          WAPM_REGISTRY=${{secrets.WAPM_REGISTRY}} \
+          WAPM_REGISTRY_TOKEN=${{secrets.WAPM_REGISTRY_TOKEN}} \
+          ./build.sh
