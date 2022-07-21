@@ -37,6 +37,12 @@ mkdir zig
 cp -R ../zig-out/bin ./zig
 cp -R ../zig-out/lib ./zig
 cp ./zig/bin/zig.wasm .
+# in some cases the build fails on the CI, but not locally for unknown reasons
+# therefore this will use the root "zig.wasm" file in case the build has failed
+cp ./zig/bin/zig.wasm ../../
+mkdir -p ./zig/bin
+cp -n ../../zig.wasm ./zig/bin
+cp -n ../../zig.wasm .
 echo "[10/10] packaging zig.wasm in:"
 pwd
 echo "directory:"
