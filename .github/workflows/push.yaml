@@ -1,12 +1,13 @@
 name: Build zig.wasm
 
+env:
+  RUST_BACKTRACE: 1
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
   workflow_dispatch:
+    inputs:
+      zigVersion:
+        required: false
+        description: 'Zig version to download (i.e. "1.0.2")'
 
 jobs:
   build:
@@ -22,7 +23,9 @@ jobs:
         run: |
           pwd 
           ls
-          WAPM_DEV_USERNAME=${{secrets.WAPM_DEV_USERNAME}} \
+          MASTER=master
+          LATEST_VERSION=${INPUT_ZIGVERSION:=$MASTER}
+          VERSION=$LATEST_VERSION WAPM_DEV_USERNAME=${{secrets.WAPM_DEV_USERNAME}} \
           ./script.sh
       - name: Publish to WAPM
         uses: wasmerio/wapm-publish@v1

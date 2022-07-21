@@ -1,3 +1,5 @@
+v=${VERSION:="master"}
+echo "building $v"
 echo "[1/10] removing old build directories..."
 rm -f ./index.json
 rm -rf ./zig-linux
@@ -6,9 +8,18 @@ echo "[2/10] installing cargo sd..."
 cargo install sd
 echo "[3/10] fetching latest ziglang.org/download/index.json..."
 curl https://ziglang.org/download/index.json --silent --out ./index.json
-binarytarball=$(jq -r '.master."x86_64-linux".tarball' ./index.json)
-srctarball=$(jq -r '.master.src.tarball' ./index.json)
-version=$(jq -r .master.version ./index.json)
+
+binarytarballquery=".'$v'.'x86_64-linux'.tarball"
+binarytarballquery=$(echo $binarytarballquery | sed "s/'/\"/g")
+binarytarball=$(jq -r $binarytarballquery ./index.json)
+
+srctarballquery=".'$v'.src.tarball"
+srctarballquery=$(echo $srctarballquery | sed "s/'/\"/g")
+srctarball=$(jq -r $srctarballquery ./index.json)
+version=$v
+if [ "$version" = "master" ]; then
+    version=$(jq -r .master.version ./index.json)
+fi
 echo "[4/10] changing wapm.toml username and version"
 sed -i "s/version = \".*\"/version = \"${version}\"/g" ./wapm.toml && \
 sd "\[package\]\nname = \"wapm2pirita\"" "[package]\nname = \"${WAPM_DEV_USERNAME}/wapm2pirita\"" ./wapm.toml
