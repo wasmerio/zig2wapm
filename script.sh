@@ -56,5 +56,3 @@ cp -n ../../zig.wasm ./zig/bin
 cp -n ../../zig.wasm .
 echo "[10/10] packaging zig.wasm in:"
 pwd
-echo "directory:"
-du -a
