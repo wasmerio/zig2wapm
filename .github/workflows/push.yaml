@@ -23,7 +23,6 @@ jobs:
           pwd 
           ls
           WAPM_DEV_USERNAME=${{secrets.WAPM_DEV_USERNAME}} \
-          WAPM_REGISTRY=${{secrets.WAPM_REGISTRY }} \
           ./script.sh
       - name: Publish to WAPM
         uses: wasmerio/wapm-publish@v1

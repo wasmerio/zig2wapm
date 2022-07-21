@@ -14,4 +14,5 @@ Cargo.lock
 *.tar.gz
 
 zig-linux/
+zig-src/
 wapm_packages

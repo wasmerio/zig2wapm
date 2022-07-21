@@ -1,8 +1,10 @@
 [package]
 name = "fschuett/zig"
-version = "0.10.0-dev.3040+0efc6a35b"
-description = "zig build tool"
+version = "0.10.0-dev.3041+de62bd064"
+description = "Zig is a general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software."
 license = "MIT"
+readme = "README.md"
+repository = "https://github.com/ziglang/zig"
 
 [[module]]
 name = "zig"
@@ -15,3 +17,7 @@ wasi = "0.1.0-unstable"
 [[command]]
 name = "zig"
 module = "zig"
+
+[fs]
+"/zig" = "zig/"
+"/cache" = "empty-cache/"
