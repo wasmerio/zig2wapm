@@ -1,5 +1,5 @@
 [package]
-name = "fschuett/zig"
+name = "zig"
 version = "0.10.0-dev.3041+de62bd064"
 description = "Zig is a general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software."
 license = "MIT"

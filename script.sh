@@ -22,7 +22,8 @@ if [ "$version" = "master" ]; then
 fi
 echo "[4/10] changing wapm.toml username and version"
 sed -i "s/version = \".*\"/version = \"${version}\"/g" ./wapm.toml && \
-sd "\[package\]\nname = \"wapm2pirita\"" "[package]\nname = \"${WAPM_DEV_USERNAME}/wapm2pirita\"" ./wapm.toml
+sdreplace="[package]\nname = \\\"$WAPM_DEV_USERNAME/zig\\\""
+sd "\[package\]\nname = \".*\"" "$sdreplace" ./wapm.toml
 cat ./wapm.toml
 echo "[5/10] downloading $binarytarball (zig version $version)"
 curl --silent --out ./zig-linux.tar.gz $(echo $binarytarball)
